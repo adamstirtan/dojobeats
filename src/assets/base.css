@@ -1,0 +1,53 @@
+:root {
+  --app-background-top: #f9fafc;
+  --app-background-bottom: #eceef4;
+  --app-text: #111114;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  color: var(--app-text);
+  background:
+    radial-gradient(
+      circle at 12% -8%,
+      rgba(255, 255, 255, 0.85),
+      transparent 46%
+    ),
+    radial-gradient(
+      circle at 100% 5%,
+      rgba(218, 223, 245, 0.9),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      var(--app-background-top),
+      var(--app-background-bottom)
+    );
+  background-repeat: no-repeat;
+  background-size:
+    100% 100%,
+    100% 100%,
+    100% 100%;
+  background-attachment: fixed;
+  line-height: 1.4;
+  font-family:
+    "SF Pro Display", "SF Pro Text", "Avenir Next", "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  width: 100%;
+}
