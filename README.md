@@ -2,6 +2,8 @@
 
 Phone-friendly Vue + Vuetify 4 music controller for martial arts instructors.
 
+<img width="394" height="794" alt="Screenshot 2026-05-08 at 3 38 43 PM" src="https://github.com/user-attachments/assets/3e558e52-b087-4308-90a3-aff033c567f2" />
+
 ## Run locally
 
 ```sh
