@@ -1,14 +1,7 @@
 <script setup>
 import { computed, onMounted, ref, watch } from "vue";
 import { playlist, soundEffects } from "./config/media";
-import {
-  List,
-  SkipBack,
-  Play,
-  Pause,
-  SkipForward,
-  X,
-} from "lucide-vue-next";
+import { List, SkipBack, Play, Pause, SkipForward, X } from "lucide-vue-next";
 
 const PLAYLIST_STORAGE_KEY = "dojobeats-playlist-preferences";
 
