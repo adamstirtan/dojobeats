@@ -250,6 +250,35 @@ watch(selectedTrackId, () => {
   syncTrack({ autoplay: isPlaying.value });
 });
 
+function updateMediaSession() {
+  if (!("mediaSession" in navigator)) return;
+
+  if (currentTrack.value) {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: currentTrack.value.title,
+      artist: "DojoBeats",
+    });
+  }
+
+  navigator.mediaSession.setActionHandler("play", () => playMusic());
+  navigator.mediaSession.setActionHandler("pause", () => pauseMusic());
+  navigator.mediaSession.setActionHandler("previoustrack", () => {
+    previousTrack();
+  });
+  navigator.mediaSession.setActionHandler("nexttrack", () => {
+    nextTrack();
+  });
+}
+
+watch(currentTrack, () => {
+  updateMediaSession();
+});
+
+watch(isPlaying, (playing) => {
+  if (!("mediaSession" in navigator)) return;
+  navigator.mediaSession.playbackState = playing ? "playing" : "paused";
+});
+
 onMounted(() => {
   playlistState.value = loadPlaylistState();
 
@@ -261,6 +290,7 @@ onMounted(() => {
   }
 
   syncTrack();
+  updateMediaSession();
 });
 </script>
 
