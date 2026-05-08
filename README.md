@@ -1,2 +1,23 @@
-# dojobeats
-A powerful soundboard and music player built for martial arts studios. Play training sound effects, voice commands, round timers, and motivational music with one click. Designed specifically for instructors to run smooth, high-energy classes.
+# DojoBeats
+
+Phone-friendly Vue + Vuetify 4 music controller for martial arts instructors.
+
+## Run locally
+
+```sh
+npm install
+npm run dev
+```
+
+## Build
+
+```sh
+npm run build
+```
+
+## Add music and sound effects
+
+1. Put music MP3 files in `/public/media/music`.
+2. Put effect MP3 files in `/public/media/effects`.
+3. Update `/src/config/media.js` with each file path plus track/effect metadata.
+4. Redeploy.
