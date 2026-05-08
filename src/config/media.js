@@ -1,13 +1,28 @@
 export const playlist = [
   {
-    id: "mortal-kombat",
+    id: "bomdigi",
+    title: "Bomdigi",
+    src: "/media/music/bomdigi.mp3",
+  },
+  {
+    id: "aperture",
+    title: "Aperture",
+    src: "/media/music/aperture.mp3",
+  },
+  {
+    id: "mk",
     title: "Mortal Kombat",
     src: "/media/music/mortal_kombat.mp3",
   },
   {
-    id: "bomdigi",
-    title: "Bomdigi",
-    src: "/media/music/bomdigi.mp3",
+    id: "eye-of-the-tiger",
+    title: "Eye of the Tiger",
+    src: "/media/music/eye_of_the_tiger.mp3",
+  },
+  {
+    id: "blade",
+    title: "Blade",
+    src: "/media/music/blade.mp3",
   },
 ];
 
