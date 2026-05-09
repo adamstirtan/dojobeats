@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onMounted, ref, watch } from "vue";
 import { playlist, soundEffects } from "./config/media";
-import { List, SkipBack, Play, Pause, SkipForward, X } from "lucide-vue-next";
+import { List, SkipBack, Play, Pause, SkipForward, ArrowLeft } from "lucide-vue-next";
 
 const PLAYLIST_STORAGE_KEY = "dojobeats-playlist-preferences";
 
@@ -301,7 +301,16 @@ onMounted(() => {
       mode="out-in"
     >
       <!-- Player view -->
-      <div v-if="!showPlaylistEditor" key="player" class="view">
+      <div
+        v-if="!showPlaylistEditor"
+        key="player"
+        class="view view--player"
+        :style="
+          currentTrack?.image
+            ? { '--track-image': `url('${currentTrack.image}')` }
+            : {}
+        "
+      >
         <div class="view-top">
           <button
             class="icon-btn"
@@ -386,15 +395,15 @@ onMounted(() => {
       <!-- Playlist editor view -->
       <div v-else key="editor" class="view">
         <div class="view-top">
-          <span class="editor-title">Songs</span>
           <button
-            class="icon-btn"
+            class="icon-btn back-btn"
             type="button"
             aria-label="Back to player"
             @click="toggleEditorSide"
           >
-            <X :size="18" />
+            <ArrowLeft :size="22" />
           </button>
+          <span class="editor-title">Playlist</span>
         </div>
 
         <div class="track-list">
@@ -485,6 +494,32 @@ onMounted(() => {
   padding: 1.25rem 1.25rem 1.5rem;
 }
 
+.view--player {
+  position: relative;
+  isolation: isolate;
+}
+
+.view--player::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: var(--track-image);
+  background-size: cover;
+  background-position: center;
+  transition: background-image 0.4s ease;
+  z-index: -1;
+}
+
+.view--player::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: -1;
+}
+
 .view-top {
   display: flex;
   align-items: center;
@@ -500,14 +535,16 @@ onMounted(() => {
   height: 44px;
   border: none;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.07);
-  color: #1d1d1f;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
   font-size: 1.1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
 }
 
 /* ── Player body ── */
@@ -524,9 +561,10 @@ onMounted(() => {
 .track-title {
   font-size: 1.6rem;
   font-weight: 700;
-  color: #111114;
+  color: #fff;
   text-align: center;
   line-height: 1.3;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 /* ── Transport ── */
@@ -539,8 +577,8 @@ onMounted(() => {
 .transport-btn {
   border: none;
   border-radius: 16px;
-  background: #f0f0f3;
-  color: #1d1d1f;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
   font-size: 1.5rem;
   width: 72px;
   height: 72px;
@@ -548,10 +586,12 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
 }
 
 .transport-btn-primary {
-  background: #1d1d1f;
+  background: rgba(255, 255, 255, 0.18);
   color: #fff;
   width: 80px;
   height: 80px;
@@ -564,7 +604,7 @@ onMounted(() => {
   width: 100%;
   max-width: 280px;
   height: 4px;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.3);
   border-radius: 999px;
   cursor: pointer;
   overflow: hidden;
@@ -572,7 +612,7 @@ onMounted(() => {
 
 .progress-fill {
   height: 100%;
-  background: #1d1d1f;
+  background: #fff;
   border-radius: 999px;
   transition: width 0.25s linear;
   pointer-events: none;
@@ -626,16 +666,24 @@ onMounted(() => {
   height: 64px;
   border: none;
   border-radius: 14px;
-  background: rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.15);
   box-shadow: none;
   font-size: 1.75rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
 }
 
 /* ── Playlist editor ── */
+.back-btn {
+  background: #1d1d1f;
+  color: #fff;
+  margin-right: 0.75rem;
+}
+
 .editor-title {
   font-size: 1.1rem;
   font-weight: 700;
