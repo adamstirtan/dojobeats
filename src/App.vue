@@ -280,8 +280,61 @@ function updateMediaSession() {
   });
 }
 
-watch(currentTrack, () => {
+function setThemeColor(color) {
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.content = color;
+  // Safari reads the topmost rendered background color for the browser chrome
+  document.body.style.backgroundColor = color;
+}
+
+function extractDominantColor(imageUrl) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      try {
+        const size = 40;
+        const canvas = document.createElement("canvas");
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, size, size);
+        const { data } = ctx.getImageData(0, 0, size, size);
+        let r = 0,
+          g = 0,
+          b = 0;
+        const count = data.length / 4;
+        for (let i = 0; i < data.length; i += 4) {
+          r += data[i];
+          g += data[i + 1];
+          b += data[i + 2];
+        }
+        // Darken so text/icons over the browser chrome remain legible
+        const f = 0.6;
+        resolve(
+          `rgb(${Math.round((r / count) * f)},${Math.round((g / count) * f)},${Math.round((b / count) * f)})`,
+        );
+      } catch {
+        resolve(null);
+      }
+    };
+    img.onerror = () => resolve(null);
+    img.src = imageUrl;
+  });
+}
+
+watch(currentTrack, async (track) => {
   updateMediaSession();
+  if (track?.color) {
+    // Use hardcoded color immediately (no CORS needed) then try to refine via canvas
+    setThemeColor(track.color);
+    if (track.image) {
+      const extracted = await extractDominantColor(track.image);
+      if (extracted) setThemeColor(extracted);
+    }
+  } else {
+    setThemeColor("#1d1d1f");
+  }
 });
 
 watch(isPlaying, (playing) => {
