@@ -8,6 +8,8 @@ import {
   Pause,
   SkipForward,
   ArrowLeft,
+  Volume2,
+  VolumeX,
 } from "lucide-vue-next";
 
 const PLAYLIST_STORAGE_KEY = "dojobeats-playlist-preferences";
@@ -65,6 +67,7 @@ function loadPlaylistState() {
 }
 
 const player = ref(null);
+const effectsRow = ref(null);
 const playlistState = ref(buildDefaultPlaylistState());
 const selectedTrackId = ref(playlist[0]?.id ?? null);
 const isPlaying = ref(false);
@@ -298,6 +301,13 @@ onMounted(() => {
 
   syncTrack();
   updateMediaSession();
+
+  requestAnimationFrame(() => {
+    if (effectsRow.value) {
+      const el = effectsRow.value;
+      el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
+    }
+  });
 });
 </script>
 
@@ -373,18 +383,25 @@ onMounted(() => {
             <div class="progress-fill" :style="{ width: progress + '%' }" />
           </div>
 
-          <button
-            class="mute-btn"
-            :class="{ muted: isMuted }"
-            type="button"
-            :aria-label="isMuted ? 'Unmute' : 'Mute'"
-            @click="toggleMute"
+          <div
+            class="mute-btn-wrap"
+            :class="{ 'is-playing': isPlaying && !isMuted }"
           >
-            {{ isMuted ? "Unmute" : "Mute" }}
-          </button>
+            <button
+              class="mute-btn"
+              :class="{ muted: isMuted }"
+              type="button"
+              :aria-label="isMuted ? 'Unmute' : 'Mute'"
+              @click="toggleMute"
+            >
+              <VolumeX v-if="isMuted" :size="18" />
+              <Volume2 v-else :size="18" />
+              {{ isMuted ? "Unmute" : "Mute" }}
+            </button>
+          </div>
         </div>
 
-        <div class="effects-row">
+        <div ref="effectsRow" class="effects-row">
           <button
             v-for="effect in soundEffects"
             :key="effect.id"
@@ -626,19 +643,74 @@ onMounted(() => {
 }
 
 /* ── Mute ── */
-.mute-btn {
+.mute-btn-wrap {
+  position: relative;
   width: 100%;
   max-width: 280px;
+  margin-top: 0.75rem;
+}
+
+.mute-btn-wrap::before,
+.mute-btn-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  border: 2px solid #ff3b30;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mute-btn-wrap.is-playing::before {
+  animation: ring-pulse 1.6s ease-out infinite;
+}
+
+.mute-btn-wrap.is-playing::after {
+  animation: ring-pulse 1.6s ease-out infinite 0.8s;
+}
+
+@keyframes ring-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.22);
+    opacity: 0;
+  }
+}
+
+.mute-btn {
+  width: 100%;
   border: none;
   border-radius: 999px;
   padding: 1.2rem 1rem;
-  margin-top: 0.75rem;
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
   background: #ff3b30;
   color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   box-shadow: 0 6px 18px rgba(255, 59, 48, 0.28);
+  position: relative;
+  z-index: 1;
+}
+
+.mute-btn-wrap.is-playing .mute-btn {
+  animation: btn-thump 0.8s ease-in-out infinite;
+}
+
+@keyframes btn-thump {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.04);
+  }
 }
 
 .mute-btn.muted {

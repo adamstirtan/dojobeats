@@ -3,15 +3,14 @@ export const playlist = [
     id: "bomdigi",
     title: "Bomdigi",
     src: "/media/music/bomdigi.mp3",
-    image:
-      "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&q=80",
+    image: "https://www.dcrtkd.ca/wp-content/uploads/2018/05/440A0140.jpg",
   },
   {
     id: "aperture",
     title: "Aperture",
     src: "/media/music/aperture.mp3",
     image:
-      "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80",
+      "https://static0.colliderimages.com/wordpress/wp-content/uploads/2026/01/harry-styles-aperture.jpg",
   },
   {
     id: "mk",
@@ -24,15 +23,14 @@ export const playlist = [
     id: "eye-of-the-tiger",
     title: "Eye of the Tiger",
     src: "/media/music/eye_of_the_tiger.mp3",
-    image:
-      "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=800&q=80",
+    image: "https://gettingresults.com/wp-content/uploads/2020/12/image-38.png",
   },
   {
     id: "blade",
     title: "Blade",
     src: "/media/music/blade.mp3",
     image:
-      "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=800&q=80",
+      "https://variety.com/wp-content/uploads/2024/06/Screen-Shot-2024-06-17-at-8.36.18-AM.png?w=1000&h=667&crop=1",
   },
 ];
 
@@ -73,5 +71,17 @@ export const soundEffects = [
     label: "Finish Him",
     emoji: "💀",
     src: "/media/effects/finish-him.mp3",
+  },
+  {
+    id: "knockout",
+    label: "Knockout",
+    emoji: "🥊",
+    src: "/media/effects/knockout.mp3",
+  },
+  {
+    id: "victory",
+    label: "Victory",
+    emoji: "🏆",
+    src: "/media/effects/victory.mp3",
   },
 ];
